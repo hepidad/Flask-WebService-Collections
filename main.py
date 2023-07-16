@@ -17,7 +17,6 @@ api = Api(app)
 database_url = os.getenv("DATABASE_URL")
 project_id = os.getenv("PROJECT_ID")
 service_account_path = "flask-api-a4156-firebase-adminsdk-n8hs8-7c4fe30891.json"  # Ubah dengan path berkas service account key "PATH_TO_SERVICE_ACCOUNT_JSON"
-print(project_id, database_url)
 # Inisialisasi Admin SDK Firebase
 cred = credentials.Certificate(service_account_path)
 firebase_admin.initialize_app(cred, {

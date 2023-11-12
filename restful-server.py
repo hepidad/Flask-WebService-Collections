@@ -26,7 +26,7 @@ def create_tables():
 
 @app.route('/')
 def index():
-    return "Server Ready: flask_restful"
+    return "Server Ready. Tools:flask_restful"
 
 class Car(Resource):
     def get(self):
@@ -138,7 +138,30 @@ class Car(Resource):
             })
         return jsonify(datas)
 
+class CarSearch(Resource):
+    def get(self):
+        parserData = reqparse.RequestParser()
+        parserData.add_argument('carid')
+
+        parserGetData = parserData.parse_args()
+
+        fId = parserGetData.get('carid')
+
+        rows = TBCarsWeb.select().where(TBCarsWeb.carid==str(fId))   
+        datas=[] 
+
+        for row in rows:
+            datas.append({
+            'carid':row.carid,
+            'carname':row.carname,
+            'carbrand':row.carbrand,
+            'carmodel':row.carmodel,
+            'carprice':row.carprice
+        })
+        return jsonify(datas)
+
 api.add_resource(Car, '/cars/', endpoint="cars/")
+api.add_resource(CarSearch, '/carsearch/', endpoint="carsearch/")
 
 if __name__ == '__main__':
     create_tables()
